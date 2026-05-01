@@ -1,8 +1,9 @@
 from django.db import models
 from books.models import Book, BookItem
 from members.models import Member
-from decimal import Decimal
 
+
+FINE_PER_DAY = 50
 
 class Loan(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='loans')
@@ -30,8 +31,9 @@ class Fine(models.Model):
 
     
     def calculate_fine(self, days_late: int):
-        #TODO: Implement fine calculation logic based on return_date and due_date
-        pass
+        fine = days_late * FINE_PER_DAY
+        return fine
+
 
     def pay_fine(self, amount):
         #TODO: Implement fine payment logic
