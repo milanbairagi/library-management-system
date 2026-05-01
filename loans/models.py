@@ -17,9 +17,15 @@ class Loan(models.Model):
         return f"Loan issued on {self.issue_date} due on {self.due_date}"
 
     def calculate_fine(self):
-        #TODO: Implement fine calculation logic based on return_date and due_date
-        pass
-    
+        try:
+            fine_obj = Fine.objects.get(loan=self)
+        except Fine.DoesNotExist:
+            fine_obj = None
+        
+        if fine_obj and not fine_obj.paid:
+            return fine_obj.amount
+        
+        return 0
 
 class Fine(models.Model):
     loan = models.OneToOneField(Loan, on_delete=models.CASCADE, related_name='fine')
