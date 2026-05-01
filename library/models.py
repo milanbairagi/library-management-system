@@ -21,8 +21,7 @@ class Library(models.Model):
         book.save()
 
     def remove_book(self, book):
-        #TODO: Implement book removal logic
-        pass
+        book.delete()
 
     def register_member(self, member):
         #TODO: Implement member registration logic
