@@ -9,6 +9,9 @@ class Library(models.Model):
     def __str__(self):
         return self.name
     
+    class Meta:
+        verbose_name_plural = "Libraries"
+    
     @property
     def members(self):
         return Member.objects.all()
