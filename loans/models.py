@@ -27,6 +27,7 @@ class Loan(models.Model):
         
         return 0
 
+
 class Fine(models.Model):
     loan = models.OneToOneField(Loan, on_delete=models.CASCADE, related_name='fine')
     amount = models.DecimalField(max_digits=6, decimal_places=2)
