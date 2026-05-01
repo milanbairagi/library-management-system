@@ -18,8 +18,7 @@ class Library(models.Model):
         return Libarian.objects.all()
 
     def add_book(self, book):
-        #TODO: Implement book addition logic
-        pass
+        book.save()
 
     def remove_book(self, book):
         #TODO: Implement book removal logic
