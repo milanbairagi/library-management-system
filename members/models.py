@@ -1,5 +1,6 @@
 from django.db import models
 from books.models import BookItem
+from loans.models import Reservation
 
 
 class Member(models.Model):
@@ -18,8 +19,8 @@ class Member(models.Model):
         self.borrowed_books.remove(book)
 
     def reserve_book(self, book):
-        # TODO: Implement reservation logic
-        pass
+        reservation = Reservation.objects.create(book=book, member=self)
+        return reservation
 
 
 class Libarian(models.Model):
