@@ -36,11 +36,12 @@ class Fine(models.Model):
 
 
     def pay_fine(self, amount):
-        #TODO: Implement fine payment logic
-        pass
+        if amount >= self.amount:
+            self.paid = True
+            self.save()
+            return True
+        return False
 
-    
-    
 
 class ReservationStatus(models.TextChoices):
     WAITING = 'waiting', 'Waiting'
