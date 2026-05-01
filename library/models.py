@@ -24,8 +24,7 @@ class Library(models.Model):
         book.delete()
 
     def register_member(self, member):
-        #TODO: Implement member registration logic
-        pass
+        member.save()
 
     def find_book(self, title):
         #TODO: Implement book search logic
