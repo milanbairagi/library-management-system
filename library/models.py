@@ -1,5 +1,6 @@
 from django.db import models
-from members.models import Member
+from members.models import Member, Libarian
+from books.models import Book
 
 class Library(models.Model):
     name = models.CharField(max_length=255)
@@ -11,3 +12,23 @@ class Library(models.Model):
     @property
     def members(self):
         return Member.objects.all()
+
+    @property
+    def staff(self):
+        return Libarian.objects.all()
+
+    def add_book(self, book):
+        #TODO: Implement book addition logic
+        pass
+
+    def remove_book(self, book):
+        #TODO: Implement book removal logic
+        pass
+
+    def register_member(self, member):
+        #TODO: Implement member registration logic
+        pass
+
+    def find_book(self, title):
+        #TODO: Implement book search logic
+        pass
