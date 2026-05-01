@@ -27,5 +27,4 @@ class Library(models.Model):
         member.save()
 
     def find_book(self, title):
-        #TODO: Implement book search logic
-        pass
+        return Book.objects.filter(title__icontains=title)
