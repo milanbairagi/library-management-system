@@ -1,13 +1,16 @@
 from django.db import models
+from typing import TYPE_CHECKING
 from books.models import Book, BookItem
-from members.models import Member
 from decimal import Decimal
+
+if TYPE_CHECKING:
+    from members.models import Member
 
 
 FINE_PER_DAY = 50
 
 class Loan(models.Model):
-    member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='loans')
+    member = models.ForeignKey('members.Member', on_delete=models.CASCADE, related_name='loans')
     book_item = models.ForeignKey(BookItem, on_delete=models.CASCADE, related_name='loans')
 
     issue_date = models.DateField()
@@ -95,7 +98,7 @@ class ReservationStatus(models.TextChoices):
 
 class Reservation(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    member = models.ForeignKey(Member, on_delete=models.CASCADE)
+    member = models.ForeignKey("members.Member", on_delete=models.CASCADE)
     status = models.CharField(max_length=20, choices=ReservationStatus.choices, default=ReservationStatus.WAITING)
     date = models.DateField(auto_now_add=True)
 

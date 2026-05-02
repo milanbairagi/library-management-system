@@ -1,6 +1,9 @@
 from django.db import models
+from typing import TYPE_CHECKING
 from books.models import BookItem
-from loans.models import Reservation
+
+if TYPE_CHECKING:
+    from loans.models import Reservation
 
 
 class Member(models.Model):
@@ -19,6 +22,7 @@ class Member(models.Model):
         self.borrowed_books.remove(book)
 
     def reserve_book(self, book):
+        from loans.models import Reservation
         reservation = Reservation.objects.create(book=book, member=self)
         return reservation
 
