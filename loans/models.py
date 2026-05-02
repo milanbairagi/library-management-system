@@ -1,10 +1,6 @@
 from django.db import models
-from typing import TYPE_CHECKING
 from books.models import Book, BookItem
 from decimal import Decimal
-
-if TYPE_CHECKING:
-    from members.models import Member
 
 
 FINE_PER_DAY = 50
