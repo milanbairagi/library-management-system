@@ -1,9 +1,5 @@
 from django.db import models
-from typing import TYPE_CHECKING
 from books.models import BookItem
-
-if TYPE_CHECKING:
-    from loans.models import Reservation
 
 
 class Member(models.Model):
