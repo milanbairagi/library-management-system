@@ -10,38 +10,33 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('books', '0001_initial'),
-        ('members', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Loan',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('issue_date', models.DateField()),
-                ('due_date', models.DateField()),
-                ('return_date', models.DateField(blank=True, null=True)),
-                ('book_item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='loans', to='books.bookitem')),
-                ('member', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='loans', to='members.member')),
-            ],
-        ),
-        migrations.CreateModel(
             name='Fine',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('amount', models.DecimalField(decimal_places=2, max_digits=6)),
                 ('paid', models.BooleanField(default=False)),
-                ('loan', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='fine', to='loans.loan')),
             ],
         ),
         migrations.CreateModel(
             name='Reservation',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('status', models.CharField(choices=[('waiting', 'Waiting'), ('completed', 'Completed'), ('cancelled', 'Cancelled')], default='waiting', max_length=20)),
                 ('date', models.DateField(auto_now_add=True)),
-                ('book', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='books.book')),
-                ('member', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='members.member')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Loan',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('issue_date', models.DateField()),
+                ('due_date', models.DateField()),
+                ('return_date', models.DateField(blank=True, null=True)),
+                ('book_item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='loans', to='books.bookitem')),
             ],
         ),
     ]
