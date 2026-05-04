@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Book',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('isbn', models.CharField(max_length=13, unique=True)),
                 ('title', models.CharField(max_length=255)),
                 ('author', models.CharField(max_length=255)),
@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='BookItem',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('barcode', models.CharField(max_length=20, unique=True)),
                 ('status', models.CharField(choices=[('available', 'Available'), ('issued', 'Issued'), ('reserved', 'Reserved')], default='available', max_length=20)),
                 ('rack_number', models.CharField(max_length=20)),
