@@ -1,5 +1,5 @@
 from django.db import models
-from members.models import Member, Libarian
+from members.models import Librarian, Member
 from books.models import Book
 
 class Library(models.Model):
@@ -18,7 +18,7 @@ class Library(models.Model):
 
     @property
     def staff(self):
-        return Libarian.objects.all()
+        return Librarian.objects.all()
 
     def add_book(self, book):
         book.save()
