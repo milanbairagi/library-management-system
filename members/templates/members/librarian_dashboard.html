@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Librarian Dashboard - Library Management</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+      }
+      .container {
+        max-width: 900px;
+        margin: 30px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #333;
+        margin-bottom: 20px;
+      }
+      .welcome {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+      }
+      .section {
+        margin: 20px 0;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-left: 4px solid #2196f3;
+        border-radius: 4px;
+      }
+      .section h2 {
+        color: #333;
+        margin-bottom: 15px;
+        font-size: 18px;
+      }
+      .button-group {
+        margin-top: 30px;
+      }
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 5px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+      }
+      .btn-primary {
+        background-color: #2196f3;
+        color: white;
+      }
+      .btn-primary:hover {
+        background-color: #0b7dda;
+      }
+      .btn-danger {
+        background-color: #f44336;
+        color: white;
+      }
+      .btn-danger:hover {
+        background-color: #da190b;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin: 15px 0;
+      }
+      .stat-box {
+        background: white;
+        padding: 15px;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      .stat-number {
+        font-size: 28px;
+        font-weight: bold;
+        color: #2196f3;
+      }
+      .stat-label {
+        color: #666;
+        margin-top: 5px;
+      }
+      .quick-links {
+        display: flex;
+        gap: 10px;
+      }
+      .quick-links a {
+        padding: 10px 15px;
+        background-color: #2196f3;
+        color: white;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .quick-links a:hover {
+        background-color: #0b7dda;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Librarian Dashboard</h1>
+
+      <div class="welcome">
+        <strong>Welcome, {{ user.name }}!</strong> You are logged in as a
+        librarian.
+      </div>
+
+      <div class="section">
+        <h2>Quick Stats</h2>
+        <div class="stats">
+          <div class="stat-box">
+            <div class="stat-number">0</div>
+            <div class="stat-label">Total Books</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">0</div>
+            <div class="stat-label">Active Loans</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">0</div>
+            <div class="stat-label">Registered Members</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">0</div>
+            <div class="stat-label">Pending Reservations</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Quick Actions</h2>
+        <div class="quick-links">
+          <a href="#">Issue Book</a>
+          <a href="#">Return Book</a>
+          <a href="#">Add New Book</a>
+          <a href="#">View Members</a>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Librarian Information</h2>
+        <p><strong>Name:</strong> {{ user.name }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Role:</strong> Library Staff</p>
+      </div>
+
+      <div class="button-group">
+        <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+      </div>
+    </div>
+  </body>
+</html>
