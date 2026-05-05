@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Book - Library Management</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Add New Book</h1>
+    {% if message %}
+      <p>{{ message }}</p>
+    {% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required />
+      </div>
+      <div class="form-group">
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" required />
+      </div>
+      <div class="form-group">
+        <label for="isbn">ISBN:</label>
+        <input type="text" id="isbn" name="isbn" required />
+      </div>
+      <div class="form-group">
+        <label for="publisher">Publisher:</label>
+        <input type="text" id="publisher" name="publisher" required />
+      </div>
+      <div class="form-group">
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" required />
+      </div>
+      <button type="submit">Add Book</button>
+    </form>
+  </div>
+</body>
+</html>
