@@ -7,6 +7,14 @@
 </head>
 <body>
   <h1>Welcome to the Library Management System</h1>
-  <p>Use the navigation menu to access different sections of the library.</p>
+  <ol>
+    {% for book in books %}
+      <li>
+        <a href="#">
+          {{ book.title }} by {{ book.author }}
+        </a>
+      </li>
+    {% endfor %}
+  </ol>
 </body>
 </html>

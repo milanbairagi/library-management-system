@@ -9,7 +9,9 @@ from core.constants import LOAN_PERIOD_DAYS, MAX_LOANS_PER_MEMBER
 
 
 def index(request):
-    return render(request, "library/index.html")
+    books = Book.objects.all()
+    return render(request, "library/index.html", {"books": books})
+    
 
 @login_required
 def add_book(request):
