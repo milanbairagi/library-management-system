@@ -9,8 +9,12 @@ from core.constants import LOAN_PERIOD_DAYS, MAX_LOANS_PER_MEMBER
 
 
 def index(request):
-    books = Book.objects.all()
-    return render(request, "library/index.html", {"books": books})
+    search_query = request.GET.get("search_query", "").strip()
+    if search_query:
+        books = Book.objects.filter(title__icontains=search_query) | Book.objects.filter(author__icontains=search_query)
+    else:
+        books = Book.objects.all()[:10]  # Limit to first 10 books
+    return render(request, "library/index.html", {"books": books, "search_query": search_query})
 
 def book_items(request, book_id):
     try:

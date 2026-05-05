@@ -3,14 +3,20 @@
 {% block title %}Home - Library Management System{% endblock %}
 
 {% block content %}
-  <h1>Welcome to the Library Management System</h1>
-  <ol>
+<div class="container mt-4">
+
+  <form class="d-flex" role="search" method="GET">
+    <input class="form-control me-2" name="search_query" value="{{ search_query }}" type="search" placeholder="Search" aria-label="Search"/>
+    <button class="btn btn-outline-success" type="submit">Search</button>
+  </form>
+  
+  <hr>
+  <div class="list-group" role="list">
     {% for book in books %}
-      <li>
-        <a href="/book_items/{{ book.id }}/">
-          {{ book.title }} by {{ book.author }}
-        </a>
-      </li>
+    <a class="list-group-item list-group-item-action my-sm" href="/book_items/{{ book.id }}/">
+      <span class="fw-bold">{{ book.title }}</span> by {{ book.author }}
+    </a>
     {% endfor %}
-  </ol>
+  </div>
+</div>
 {% endblock %}
