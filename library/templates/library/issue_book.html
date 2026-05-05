@@ -1,9 +1,8 @@
-<DOCTYPE html>
-<html>
-<head>
-  <title>Issue Book</title>
-</head>
-<body>
+{% extends "library/layout.html" %}
+
+{% block title %}Issue Book - Library Management System{% endblock %}
+
+{% block content %}
   <h1>Issue Book</h1>
   {% if error %}
     <p style="color: red;">{{ error }}</p>
@@ -32,5 +31,4 @@
       <button type="submit">Issue Book</button>
     </form>
   {% endif %}
-</body>
-</html>
+{% endblock %}

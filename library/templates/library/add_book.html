@@ -1,11 +1,8 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Add Book - Library Management</title>
-</head>
-<body>
+{% extends "library/layout.html" %}
+
+{% block title %}Add Book - Library Management System{% endblock %}
+
+{% block content %}
   <div class="container">
     <h1>Add New Book</h1>
     {% if message %}
@@ -36,5 +33,4 @@
       <button type="submit">Add Book</button>
     </form>
   </div>
-</body>
-</html>
+{% endblock %}

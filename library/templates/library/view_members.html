@@ -1,14 +1,12 @@
-<DOCTYPE html>
-<html>
-<head>
-  <title>Library Members</title>
-</head>
-<body>
+{% extends "library/layout.html" %}
+
+{% block title %}Library Members - Library Management System{% endblock %}
+
+{% block content %}
   <h1>Library Members</h1>
   <ul>
     {% for member in members %}
     <li>{{ member.name }} ({{ member.email }})</li>
     {% endfor %}
   </ul>
-</body>
-</html>
+{% endblock %}

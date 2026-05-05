@@ -1,9 +1,8 @@
-<DOCTYPE html>
-<html>
-<head>
-  <title>Return Book</title>
-</head>
-<body>
+{% extends "library/layout.html" %}
+
+{% block title %}Return Book - Library Management System{% endblock %}
+
+{% block content %}
   <h1>Return Book</h1>
   {% if error %}
     <p style="color: red;">{{ error }}</p>
@@ -22,6 +21,4 @@
     <br><br>
     <button type="submit">Return Book</button>
   </form>
-
-</body>
-</html>
+{% endblock %}
