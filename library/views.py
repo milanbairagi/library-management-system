@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from books.models import Book
+from members.models import Member
 
 
 def index(request):
@@ -37,3 +38,13 @@ def add_book(request):
 
     # Render the add book form for GET requests
     return render(request, "library/add_book.html")
+
+
+@login_required
+def view_members(request):
+    """View to display all members of the library. Only accessible by librarians."""
+    if not request.user.is_staff:
+        return HttpResponseForbidden("You do not have permission to view members.")
+
+    members = Member.objects.all()
+    return render(request, "library/view_members.html", {"members": members})
