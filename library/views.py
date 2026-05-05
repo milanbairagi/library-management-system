@@ -5,7 +5,7 @@ from books.models import Book, BookItem, BookStatus
 from members.models import Member
 from loans.models import Reservation, Loan
 from django.utils import timezone
-from core.constants import LOAN_PERIOD_DAYS
+from core.constants import LOAN_PERIOD_DAYS, MAX_LOANS_PER_MEMBER
 
 
 def index(request):
@@ -82,6 +82,11 @@ def issue_book(request):
         pending_fines = sum(loan.get_pending_fine() for loan in member.loans.all())
         if pending_fines > 0:
             return render(request, "library/issue_book.html", {"error": f"Member has pending fines of ${pending_fines:.2f}. Please resolve fines before issuing new books."})
+
+        # Check if the member has reached the maximum number of active loans
+        active_loans_count = member.loans.filter(return_date__isnull=True).count()
+        if active_loans_count >= MAX_LOANS_PER_MEMBER:
+            return render(request, "library/issue_book.html", {"error": f"Member has reached the maximum number of active loans ({MAX_LOANS_PER_MEMBER}). Cannot issue more books until some are returned."})
 
         # Create a new loan for the book and member
         loan = Loan.objects.create(
