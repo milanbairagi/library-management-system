@@ -1,9 +1,8 @@
 from django.db import models
 from books.models import Book, BookItem
 from decimal import Decimal
+from core.constants import FINE_PER_DAY
 
-
-FINE_PER_DAY = 50
 
 class Loan(models.Model):
     member = models.ForeignKey('members.Member', on_delete=models.CASCADE, related_name='loans')

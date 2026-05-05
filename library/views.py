@@ -5,9 +5,7 @@ from books.models import Book, BookItem, BookStatus
 from members.models import Member
 from loans.models import Reservation, Loan
 from django.utils import timezone
-
-
-LOAN_PERIOD_DAYS = 14
+from core.constants import LOAN_PERIOD_DAYS
 
 
 def index(request):
