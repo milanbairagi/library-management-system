@@ -7,7 +7,7 @@ from django.shortcuts import redirect, render
 from .models import Member
 
 
-def _login_for_role(request, *, user_type, staff_required):
+def login_for_role(request):
     if request.method == "POST":
         email = request.POST.get("email", "").strip().lower()
         password = request.POST.get("password", "")
@@ -15,24 +15,12 @@ def _login_for_role(request, *, user_type, staff_required):
 
         if user is None:
             messages.error(request, "Invalid email or password.")
-            return render(request, "members/login.html", {"user_type": user_type})
-
-        if user.is_staff != staff_required:
-            messages.error(request, f"This account is not allowed to sign in as {user_type}.")
-            return render(request, "members/login.html", {"user_type": user_type})
+            return render(request, "members/login.html")
 
         login(request, user)
         return redirect("dashboard")
 
-    return render(request, "members/login.html", {"user_type": user_type})
-
-
-def member_login(request):
-    return _login_for_role(request, user_type="Member", staff_required=False)
-
-
-def librarian_login(request):
-    return _login_for_role(request, user_type="Librarian", staff_required=True)
+    return render(request, "members/login.html")
 
 
 def member_register(request):
@@ -53,7 +41,7 @@ def member_register(request):
 
         Member.objects.create_member(email=email, name=name, phone=phone, password=password)
         messages.success(request, "Registration successful. You can now log in.")
-        return redirect("member_login")
+        return redirect("login")
 
     return render(request, "members/register.html", {"user_type": "Member"})
 
@@ -72,4 +60,4 @@ def dashboard(request):
 @login_required
 def logout_view(request):
     logout(request)
-    return redirect("member_login")
+    return redirect("login")

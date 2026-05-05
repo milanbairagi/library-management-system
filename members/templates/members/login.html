@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>{{ user_type }} Login - Library Management</title>
+    <title>Login - Library Management</title>
     <style>
       * {
         margin: 0;
@@ -94,7 +94,7 @@
   </head>
   <body>
     <div class="container">
-      <h1>{{ user_type }} Login</h1>
+      <h1>Login</h1>
 
       {% if messages %}
       <ul class="messages">
@@ -122,17 +122,10 @@
       </form>
 
       <div class="links">
-        {% if user_type == 'Member' %}
         <p>
           Don't have an account?
-          <a href="{% url 'member_register' %}">Register here</a>
+          <a href="{% url 'register' %}">Register here</a>
         </p>
-        {% else %}
-        <p>
-          Don't have an account?
-          <a href="{% url 'librarian_register' %}">Register here</a>
-        </p>
-        {% endif %}
       </div>
     </div>
   </body>

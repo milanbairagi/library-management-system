@@ -138,17 +138,10 @@
       </form>
 
       <div class="links">
-        {% if user_type == 'Member' %}
         <p>
           Already have an account?
-          <a href="{% url 'member_login' %}">Login here</a>
+          <a href="{% url 'login' %}">Login here</a>
         </p>
-        {% else %}
-        <p>
-          Already have an account?
-          <a href="{% url 'librarian_login' %}">Login here</a>
-        </p>
-        {% endif %}
       </div>
     </div>
   </body>
