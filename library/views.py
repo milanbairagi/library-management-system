@@ -114,3 +114,55 @@ def issue_book(request):
                           "members": members,
                             "books": books
                        })
+
+
+@login_required
+def return_book(request):
+    """View to return a book. Only accessible by librarians."""
+    if not request.user.is_staff:
+        return HttpResponseForbidden("You do not have permission to return books.")
+    
+    if request.method == "POST":
+        book_item_barcode = request.POST.get("book_item_barcode")
+        member_id = request.POST.get("member_id")
+
+        try:
+            book_item = BookItem.objects.get(barcode=book_item_barcode)
+            member = Member.objects.get(id=member_id)
+        except (BookItem.DoesNotExist, Member.DoesNotExist):
+            return render(request, "library/return_book.html", {
+                "error": "Invalid book item or member ID."
+            })
+
+        # Check if the book item is currently issued to the member
+        if book_item.status != BookStatus.ISSUED:
+            return render(request, "library/return_book.html", {
+                "error": "This book item is not currently issued."
+            })
+
+        # Mark the book as returned
+        book_item.mark_returned()
+
+        # Find the corresponding loan and mark it as returned and calculate any fines
+        loan = Loan.objects.filter(book_item=book_item, member=member, return_date__isnull=True).first()
+        fine = None
+        if loan:
+            loan.return_date = timezone.now().date()
+            loan.save()
+            fine = loan.calculate_and_create_fine()
+        else:
+            return render(request, "library/return_book.html", {
+                "error": "The member did not borrow this book."
+            })
+
+        if fine and not fine.fully_paid:
+            return render(request, "library/return_book.html", {
+                "message": f"Book returned successfully. A fine of ${fine.amount:.2f} has been incurred for late return.",
+                "fine": fine
+                })
+
+        return render(request, "library/return_book.html", {
+            "message": "Book returned successfully. No fines incurred."
+        })
+
+    return render(request, "library/return_book.html")

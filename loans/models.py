@@ -30,7 +30,8 @@ class Loan(models.Model):
         if not fine_obj and self.return_date and self.return_date > self.due_date:
             days_late = (self.return_date - self.due_date).days
             fine_amount = days_late * FINE_PER_DAY
-            fine_obj = Fine.objects.create(loan=self, amount=fine_amount)
+            if fine_amount > 0:
+                fine_obj = Fine.objects.create(loan=self, amount=fine_amount)
         
         return fine_obj
     
