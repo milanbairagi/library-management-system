@@ -104,3 +104,13 @@ class Reservation(models.Model):
     def cancel_reservation(self):
         self.status = ReservationStatus.CANCELLED
         self.save()
+
+    def fulfill(self):
+        self.status = ReservationStatus.COMPLETED
+        self.save()
+
+    def reserve_book(self):
+        if self.status == ReservationStatus.WAITING:
+            self.save()
+            return True
+        return False
