@@ -7,7 +7,7 @@
   <ol>
     {% for book in books %}
       <li>
-        <a href="#">
+        <a href="/book_items/{{ book.id }}/">
           {{ book.title }} by {{ book.author }}
         </a>
       </li>

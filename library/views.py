@@ -11,6 +11,15 @@ from core.constants import LOAN_PERIOD_DAYS, MAX_LOANS_PER_MEMBER
 def index(request):
     books = Book.objects.all()
     return render(request, "library/index.html", {"books": books})
+
+def book_items(request, book_id):
+    try:
+        book = Book.objects.get(id=book_id)
+    except Book.DoesNotExist:
+        return render(request, "library/book_items.html", {"error": "Book not found."})
+
+    book_items = BookItem.objects.filter(book=book)
+    return render(request, "library/book_items.html", {"book": book, "book_items": book_items})
     
 
 @login_required
