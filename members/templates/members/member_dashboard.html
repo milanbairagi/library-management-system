@@ -1,137 +1,37 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Member Dashboard - Library Management</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-      }
-      .container {
-        max-width: 800px;
-        margin: 30px auto;
-        background: white;
-        padding: 30px;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      }
-      h1 {
-        color: #333;
-        margin-bottom: 20px;
-      }
-      .welcome {
-        background-color: #d4edda;
-        color: #155724;
-        padding: 15px;
-        border-radius: 4px;
-        margin-bottom: 20px;
-      }
-      .info-section {
-        margin: 20px 0;
-        padding: 15px;
-        background-color: #f9f9f9;
-        border-left: 4px solid #4caf50;
-        border-radius: 4px;
-      }
-      .info-section h2 {
-        color: #333;
-        margin-bottom: 10px;
-        font-size: 18px;
-      }
-      .info-item {
-        margin: 10px 0;
-      }
-      .info-item strong {
-        color: #555;
-      }
-      .button-group {
-        margin-top: 30px;
-      }
-      .btn {
-        display: inline-block;
-        padding: 10px 20px;
-        margin: 5px;
-        border-radius: 4px;
-        text-decoration: none;
-        font-weight: bold;
-        cursor: pointer;
-      }
-      .btn-primary {
-        background-color: #4caf50;
-        color: white;
-      }
-      .btn-primary:hover {
-        background-color: #45a049;
-      }
-      .btn-danger {
-        background-color: #f44336;
-        color: white;
-      }
-      .btn-danger:hover {
-        background-color: #da190b;
-      }
-      .borrowed-books {
-        margin-top: 20px;
-      }
-      .book-list {
-        list-style: none;
-      }
-      .book-list li {
-        padding: 10px;
-        background-color: #f0f0f0;
-        margin: 5px 0;
-        border-radius: 4px;
-      }
-      .no-books {
-        color: #999;
-        font-style: italic;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Member Dashboard</h1>
+{% extends "base.html" %}
 
-      <div class="welcome">
-        <strong>Welcome, {{ user.name }}!</strong> You are logged in as a
-        member.
-      </div>
+{% block title %}Member Dashboard - Library Management{% endblock %}
 
-      <div class="info-section">
-        <h2>Your Information</h2>
+{% block content %}
+  <div class="container">
+    <h1 class="mb-3">Welcome, {{ user.name }}!</h1>
+
+    <div class="card shadow mb-3">
+      <div class="card-body">
+        <h2 class="card-title">Your Information</h2>
         <div class="info-item">
           <strong>Name:</strong> {{ user.name }}
         </div>
         <div class="info-item"><strong>Email:</strong> {{ user.email }}</div>
         <div class="info-item"><strong>Phone:</strong> {{ member.phone }}</div>
       </div>
+    </div>
 
-      <div class="info-section borrowed-books">
-        <h2>Borrowed Books</h2>
+    <div class="card shadow mb-3">
+      <div class="card-body">
+        <h2 class="card-title">Borrowed Books</h2>
         {% if member.borrowed_books.all %}
         <ul class="book-list">
           {% for book_item in member.borrowed_books.all %}
           <li>
-            <strong>{{ book_item.book.title }}</strong> - {{
-            book_item.book.author }} <br /><small
-              >Barcode: {{ book_item.barcode }}</small
-            >
+            <strong>{{ book_item.book.title }}</strong> - {{book_item.book.author }} <br />
+            <small>Barcode: {{ book_item.barcode }}</small>
           </li>
-          {% endfor %}
+        {% endfor %}
         </ul>
-        {% else %}
-        <p class="no-books">You have no borrowed books.</p>
-        {% endif %}
-      </div>
-
-      <div class="button-group">
-        <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
-      </div>
+      {% else %}
+      <p class="fst-italic text-secondary">You have no borrowed books.</p>
+      {% endif %}
     </div>
-  </body>
-</html>
+  </div>
+{% endblock %}
