@@ -3,10 +3,24 @@
 {% block title %}Library Members - Library Management System{% endblock %}
 
 {% block content %}
+<div class="container mt-4">
   <h1>Library Members</h1>
-  <ul>
+
+  <table class="table table-striped">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+    </tr>
     {% for member in members %}
-    <li>{{ member.name }} ({{ member.email }})</li>
+    <tr>
+      <td>{{ member.id }}</td>
+      <td>{{ member.name }}</td>
+      <td>{{ member.email }}</td>
+      <td>{{ member.phone }}</td>
+    </tr>
     {% endfor %}
-  </ul>
+  </table>
+</div>
 {% endblock %}
