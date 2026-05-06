@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+from http import HTTPStatus
 
 from .models import Member
 
@@ -21,37 +22,39 @@ class MemberAndLibrarianAuthTests(TestCase):
             password=self.librarian_password,
         )
 
-    def test_member_login_only_allows_non_staff_user(self):
+    def test_member_registration(self):
         response = self.client.post(
-            reverse("member_login"),
+            reverse("register"),
+            {
+                "name": "New Member",
+                "email": "newmember@example.com",
+                "phone": "5555555555",
+                "password": "newmemberpass",
+                "password2": "newmemberpass",
+            },
+            follow=True,
+        )
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTrue(Member.objects.filter(email="newmember@example.com").exists())
+        self.assertContains(response, "Login")
+
+    def test_member_login_and_librarian_login(self):
+        response = self.client.post(
+            reverse("login"),
             {"email": self.member.email, "password": self.member_password},
             follow=True,
         )
+        self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertContains(response, "Member Dashboard")
 
         self.client.logout()
         response = self.client.post(
-            reverse("member_login"),
+            reverse("login"),
             {"email": self.librarian.email, "password": self.librarian_password},
             follow=True,
         )
-        self.assertContains(response, "not allowed to sign in as Member")
-
-    def test_librarian_login_only_allows_staff_user(self):
-        response = self.client.post(
-            reverse("librarian_login"),
-            {"email": self.librarian.email, "password": self.librarian_password},
-            follow=True,
-        )
+        self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertContains(response, "Librarian Dashboard")
-
-        self.client.logout()
-        response = self.client.post(
-            reverse("librarian_login"),
-            {"email": self.member.email, "password": self.member_password},
-            follow=True,
-        )
-        self.assertContains(response, "not allowed to sign in as Librarian")
 
     def test_dashboard_routes_by_is_staff_flag(self):
         self.client.login(email=self.member.email, password=self.member_password)
@@ -65,4 +68,4 @@ class MemberAndLibrarianAuthTests(TestCase):
 
     def test_public_librarian_registration_is_disabled(self):
         response = self.client.get(reverse("librarian_register"))
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
