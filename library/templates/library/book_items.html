@@ -5,41 +5,43 @@ Book Item - Library Management System
 {% endblock %}
 
 {% block content %}
-{% if error %}
-  <p style="color: red;">{{ error }}</p>
-{% endif %}
-{% if message %}
-  <p style="color: green;">{{ message }}</p>
-{% endif %}
+  <div class="container mt-4">
+  {% if error %}
+    <p style="color: red;">{{ error }}</p>
+  {% endif %}
+  {% if message %}
+    <p style="color: green;">{{ message }}</p>
+  {% endif %}
 
-{% if book %}
-  <h1>Book</h1>
-  <p><strong>ISBN:</strong> {{ book.isbn }}</p>
-  <p><strong>Title:</strong> {{ book.title }}</p>
-  <p><strong>Author:</strong> {{ book.author }}</p>
-  <p><strong>Publisher:</strong> {{ book.publisher }}</p>
-<p><strong>Subject:</strong> {{ book.subject }}</p>
-<br /><br />
-{% endif %}
+  {% if book %}
+    <h1>Book</h1>
+    <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+    <p><strong>Title:</strong> {{ book.title }}</p>
+    <p><strong>Author:</strong> {{ book.author }}</p>
+    <p><strong>Publisher:</strong> {{ book.publisher }}</p>
+  <p><strong>Subject:</strong> {{ book.subject }}</p>
+  <br /><br />
+  {% endif %}
 
-{% if book_items %}
-<h2>Available Copies</h2>
-<table>
-  <tr>
-    <th>Barcode</th>
-    <th>Status</th>
-    <th>Rack Number</th>
-  </tr>
-  {% for b in book_items %}
-  <tr>
-    <td>{{ b.barcode }}</td>
-    <td>{{ b.status }}</td>
-    <td>{{ b.rack_number }}</td>
-  </tr>
-  {% endfor %}
-</table>
-{% else %}
-  <p style="color: red;">No available copies of this book.</p>
-{% endif %}
+  {% if book_items %}
+  <h2>Available Copies</h2>
+  <table class="table table-bordered">
+    <tr>
+      <th>Barcode</th>
+      <th>Status</th>
+      <th>Rack Number</th>
+    </tr>
+    {% for b in book_items %}
+    <tr>
+      <td>{{ b.barcode }}</td>
+      <td>{{ b.status }}</td>
+      <td>{{ b.rack_number }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+    <p style="color: red;">No available copies of this book.</p>
+  {% endif %}
 
+</div>
 {% endblock %}
