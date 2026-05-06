@@ -13,16 +13,16 @@
           <strong>Name:</strong> {{ user.name }}
         </div>
         <div class="info-item"><strong>Email:</strong> {{ user.email }}</div>
-        <div class="info-item"><strong>Phone:</strong> {{ member.phone }}</div>
+        <div class="info-item"><strong>Phone:</strong> {{ user.phone }}</div>
       </div>
     </div>
 
     <div class="card shadow mb-3">
       <div class="card-body">
         <h2 class="card-title">Borrowed Books</h2>
-        {% if member.borrowed_books.all %}
+        {% if borrowed_books %}
         <ul class="book-list">
-          {% for book_item in member.borrowed_books.all %}
+          {% for book_item in borrowed_books %}
           <li>
             <strong>{{ book_item.book.title }}</strong> - {{book_item.book.author }} <br />
             <small>Barcode: {{ book_item.barcode }}</small>

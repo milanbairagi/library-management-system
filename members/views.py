@@ -66,7 +66,11 @@ def dashboard(request):
             "total_active_loans": total_active_loans,
             "total_pending_reservations": total_pending_reservations
         })
-    return render(request, "members/member_dashboard.html", {"member": request.user})
+
+    user_loaned = Loan.objects.filter(member=request.user, return_date=None).all()
+    borrowed_books = [loan.book_item for loan in user_loaned]
+
+    return render(request, "members/member_dashboard.html", {"borrowed_books": borrowed_books})
 
 
 @login_required
