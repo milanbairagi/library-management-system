@@ -3,22 +3,41 @@
 {% block title %}Return Book - Library Management System{% endblock %}
 
 {% block content %}
-  <h1>Return Book</h1>
-  {% if error %}
-    <p style="color: red;">{{ error }}</p>
-  {% endif %}
-  {% if message %}
-    <p style="color: green;">{{ message }}</p>
-  {% endif %}
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="mb-4">Return Book</h1>
+      
+      {% if error %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{ error }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endif %}
+      
+      {% if message %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endif %}
 
-  <form method="post">
-    {% csrf_token %}
-    <label for="book_item_barcode">Book Item Barcode:</label>
-    <input type="text" id="book_item_barcode" name="book_item_barcode" required>
-    <br><br>
-    <label for="member_id">Member ID:</label>
-    <input type="number" id="member_id" name="member_id" required>
-    <br><br>
-    <button type="submit">Return Book</button>
-  </form>
+      <form method="post" class="card p-4 shadow-sm">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+          <label for="book_item_barcode" class="form-label">Book Item Barcode:</label>
+          <input type="text" id="book_item_barcode" name="book_item_barcode" class="form-control" placeholder="Enter barcode..." required>
+        </div>
+
+        <div class="mb-3">
+          <label for="member_id" class="form-label">Member ID:</label>
+          <input type="number" id="member_id" name="member_id" class="form-control" placeholder="Enter member ID..." required>
+        </div>
+
+        <button type="submit" class="btn btn-success">Return Book</button>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
