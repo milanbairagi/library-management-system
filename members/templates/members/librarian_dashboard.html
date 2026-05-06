@@ -1,164 +1,79 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Librarian Dashboard - Library Management</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-      }
-      .container {
-        max-width: 900px;
-        margin: 30px auto;
-        background: white;
-        padding: 30px;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      }
-      h1 {
-        color: #333;
-        margin-bottom: 20px;
-      }
-      .welcome {
-        background-color: #d1ecf1;
-        color: #0c5460;
-        padding: 15px;
-        border-radius: 4px;
-        margin-bottom: 20px;
-      }
-      .section {
-        margin: 20px 0;
-        padding: 20px;
-        background-color: #f9f9f9;
-        border-left: 4px solid #2196f3;
-        border-radius: 4px;
-      }
-      .section h2 {
-        color: #333;
-        margin-bottom: 15px;
-        font-size: 18px;
-      }
-      .button-group {
-        margin-top: 30px;
-      }
-      .btn {
-        display: inline-block;
-        padding: 10px 20px;
-        margin: 5px;
-        border-radius: 4px;
-        text-decoration: none;
-        font-weight: bold;
-        cursor: pointer;
-        border: none;
-      }
-      .btn-primary {
-        background-color: #2196f3;
-        color: white;
-      }
-      .btn-primary:hover {
-        background-color: #0b7dda;
-      }
-      .btn-danger {
-        background-color: #f44336;
-        color: white;
-      }
-      .btn-danger:hover {
-        background-color: #da190b;
-      }
-      .stats {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-        margin: 15px 0;
-      }
-      .stat-box {
-        background: white;
-        padding: 15px;
-        border-radius: 4px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      }
-      .stat-number {
-        font-size: 28px;
-        font-weight: bold;
-        color: #2196f3;
-      }
-      .stat-label {
-        color: #666;
-        margin-top: 5px;
-      }
-      .quick-links {
-        display: flex;
-        gap: 10px;
-      }
-      .quick-links a {
-        padding: 10px 15px;
-        background-color: #2196f3;
-        color: white;
-        border-radius: 4px;
-        text-decoration: none;
-        font-weight: bold;
-      }
-      .quick-links a:hover {
-        background-color: #0b7dda;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Librarian Dashboard</h1>
+{% extends "base.html" %}
 
-      <div class="welcome">
-        <strong>Welcome, {{ user.name }}!</strong> You are logged in as a
-        librarian.
-      </div>
+{% block title %}Librarian Dashboard - Library Management{% endblock %}
 
-      <div class="section">
-        <h2>Quick Stats</h2>
-        <div class="stats">
-          <div class="stat-box">
-            <div class="stat-number">0</div>
-            <div class="stat-label">Total Books</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-number">0</div>
-            <div class="stat-label">Active Loans</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-number">0</div>
-            <div class="stat-label">Registered Members</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-number">0</div>
-            <div class="stat-label">Pending Reservations</div>
+{% block content %}
+<div class="container mt-4">
+  <h1 class="mb-3">Welcome, {{ user.name }}!</h1>
+
+  <div class="card shadow mb-3">
+    <div class="card-body">
+      <h2 class="card-title">Quick Stats</h2>
+      <div class="row g-3">
+
+        <div class="col-md-6 col-lg-3">
+          <div class="card">
+            <div class="card-body text-center">
+              <div class="fs-3 fw-bold text-primary">0</div>
+              <div class="text-muted mt-2">Total Books</div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="section">
-        <h2>Quick Actions</h2>
-        <div class="quick-links">
-          <a href="{% url 'issue_book' %}">Issue Book</a>
-          <a href="{% url 'return_book' %}">Return Book</a>
-          <a href="{% url 'add_book' %}">Add New Book</a>
-          <a href="{% url 'view_members' %}">View Members</a>
+        <div class="col-md-6 col-lg-3">
+          <div class="card">
+            <div class="card-body text-center">
+              <div class="fs-3 fw-bold text-primary">0</div>
+              <div class="text-muted mt-2">Active Loans</div>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="section">
-        <h2>Librarian Information</h2>
-        <p><strong>Name:</strong> {{ user.name }}</p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>Role:</strong> Library Staff</p>
-      </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="card">
+            <div class="card-body text-center">
+              <div class="fs-3 fw-bold text-primary">0</div>
+              <div class="text-muted mt-2">Registered Members</div>
+            </div>
+          </div>
+        </div>
 
-      <div class="button-group">
-        <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+        <div class="col-md-6 col-lg-3">
+          <div class="card">
+            <div class="card-body text-center">
+              <div class="fs-3 fw-bold text-primary">0</div>
+              <div class="text-muted mt-2">Pending Reservations</div>
+            </div>
+          </div>
+        </div>
+        
       </div>
     </div>
-  </body>
-</html>
+  </div>
+
+  <div class="card shadow mb-3">
+    <div class="card-body">
+      <h2 class="card-title">Quick Actions</h2>
+      <div class="d-flex gap-2 flex-wrap">
+        <a href="{% url 'issue_book' %}" class="btn btn-primary">Issue Book</a>
+        <a href="{% url 'return_book' %}" class="btn btn-primary">Return Book</a>
+        <a href="{% url 'add_book' %}" class="btn btn-primary">Add New Book</a>
+        <a href="{% url 'view_members' %}" class="btn btn-primary">View Members</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow mb-3">
+    <div class="card-body">
+      <h2 class="card-title">Librarian Information</h2>
+      <p><strong>Name:</strong> {{ user.name }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Role:</strong> Library Staff</p>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+  </div>
+</div>
+{% endblock %}
