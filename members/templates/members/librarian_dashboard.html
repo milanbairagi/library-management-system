@@ -14,8 +14,8 @@
         <div class="col-md-6 col-lg-3">
           <div class="card">
             <div class="card-body text-center">
-              <div class="fs-3 fw-bold text-primary">{{ total_books }}</div>
-              <div class="text-muted mt-2">Total Books</div>
+              <div class="fs-3 fw-bold text-success">{{ total_books }}</div>
+              <div class="text-body-secondary mt-2">Total Books</div>
             </div>
           </div>
         </div>
@@ -23,8 +23,8 @@
         <div class="col-md-6 col-lg-3">
           <div class="card">
             <div class="card-body text-center">
-              <div class="fs-3 fw-bold text-primary">{{ total_active_loans }}</div>
-              <div class="text-muted mt-2">Active Loans</div>
+              <div class="fs-3 fw-bold text-success">{{ total_active_loans }}</div>
+              <div class="text-body-secondary mt-2">Active Loans</div>
             </div>
           </div>
         </div>
@@ -32,8 +32,8 @@
         <div class="col-md-6 col-lg-3">
           <div class="card">
             <div class="card-body text-center">
-              <div class="fs-3 fw-bold text-primary">{{ total_members }}</div>
-              <div class="text-muted mt-2">Registered Members</div>
+              <div class="fs-3 fw-bold text-success">{{ total_members }}</div>
+              <div class="text-body-secondary mt-2">Registered Members</div>
             </div>
           </div>
         </div>
@@ -41,8 +41,8 @@
         <div class="col-md-6 col-lg-3">
           <div class="card">
             <div class="card-body text-center">
-              <div class="fs-3 fw-bold text-primary">{{ total_pending_reservations }}</div>
-              <div class="text-muted mt-2">Pending Reservations</div>
+              <div class="fs-3 fw-bold text-success">{{ total_pending_reservations }}</div>
+              <div class="text-body-secondary mt-2">Pending Reservations</div>
             </div>
           </div>
         </div>
@@ -55,10 +55,10 @@
     <div class="card-body">
       <h2 class="card-title">Quick Actions</h2>
       <div class="d-flex gap-2 flex-wrap">
-        <a href="{% url 'issue_book' %}" class="btn btn-primary">Issue Book</a>
-        <a href="{% url 'return_book' %}" class="btn btn-primary">Return Book</a>
-        <a href="{% url 'add_book' %}" class="btn btn-primary">Add New Book</a>
-        <a href="{% url 'view_members' %}" class="btn btn-primary">View Members</a>
+        <a href="{% url 'issue_book' %}" class="btn btn-success">Issue Book</a>
+        <a href="{% url 'return_book' %}" class="btn btn-success">Return Book</a>
+        <a href="{% url 'add_book' %}" class="btn btn-success">Add New Book</a>
+        <a href="{% url 'view_members' %}" class="btn btn-success">View Members</a>
       </div>
     </div>
   </div>
