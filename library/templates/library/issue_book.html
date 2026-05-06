@@ -3,32 +3,88 @@
 {% block title %}Issue Book - Library Management System{% endblock %}
 
 {% block content %}
-  <h1>Issue Book</h1>
-  {% if error %}
-    <p style="color: red;">{{ error }}</p>
-  {% endif %}
-  {% if message %}
-    <p style="color: green;">{{ message }}</p>
-  {% endif %}
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="mb-4">Issue Book</h1>
+      
+      {% if error %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{ error }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endif %}
+      
+      {% if message %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endif %}
 
-  {% if books and members %}
-    <form method="post">
-      {% csrf_token %}
-      <label for="book_id">Book:</label>
-      <select name="book_id" id="book_id" required>
-        {% for book in books %}
-          <option value="{{ book.id }}">{{ book.title }}</option>
-        {% endfor %}
-      </select>
-      <br><br>
-      <label for="member_id">Member:</label>
-      <select name="member_id" id="member_id" required>
-        {% for member in members %}
-          <option value="{{ member.id }}">{{ member.name }}</option>
-        {% endfor %}
-      </select>
-      <br><br>
-      <button type="submit">Issue Book</button>
-    </form>
-  {% endif %}
+      {% if books and members %}
+        <form method="post" class="card p-4 shadow-sm">
+          {% csrf_token %}
+          
+          <div class="mb-3">
+            <label for="book_display" class="form-label fw-bold">Book:</label>
+            <input class="form-control" list="booksOptions" id="book_display" placeholder="Type to search..." required>
+            <input type="hidden" name="book_id" id="book_id">
+            <datalist id="booksOptions">
+              {% for book in books %}
+                <option data-book-id="{{ book.id }}">{{ book.title }} by {{ book.author }}</option>
+              {% endfor %}
+            </datalist>
+            <small class="form-text text-muted">Select a book from the dropdown</small>
+          </div>
+          
+          <div class="mb-3">
+            <label for="member_id" class="form-label fw-bold">Member:</label>
+            <input class="form-control" list="membersOptions" id="member_display" placeholder="Type to search..." required>
+            <input type="hidden" name="member_id" id="member_id">
+            <datalist id="membersOptions">
+              {% for member in members %}
+              {% if not user.id == member.id %}
+                <option data-member-id="{{ member.id }}">{{ member.name }} ({{ member.email }})</option>
+              {% endif %}
+              {% endfor %}
+            </datalist>
+            <small class="form-text text-muted">Select a member from the dropdown</small>
+          </div>
+          
+          <button type="submit" class="btn btn-success">Issue Book</button>
+        </form>
+
+        <script>
+          const booksData = {
+            {% for book in books %}
+              '{{ book.title }} by {{ book.author }}': {{ book.id }},
+            {% endfor %}
+          };
+          const membersData = {
+            {% for member in members %}
+              '{{ member.name }} ({{ member.email }})': {{ member.id }},
+            {% endfor %}
+          };
+
+          function setupDatalistMapping(displayInputId, hiddenInputId, dataMap) {
+            const displayInput = document.getElementById(displayInputId);
+            const hiddenInput = document.getElementById(hiddenInputId);
+
+            const updateValue = () => {
+              const selectedText = displayInput.value;
+              hiddenInput.value = dataMap[selectedText] || '';
+            };
+            
+            displayInput.addEventListener('input', updateValue);
+            displayInput.addEventListener('change', updateValue);
+          }
+
+          setupDatalistMapping('book_display', 'book_id', booksData);
+          setupDatalistMapping('member_display', 'member_id', membersData);
+        </script>
+      {% endif %}
+    </div>
+  </div>
+</div>
 {% endblock %}
