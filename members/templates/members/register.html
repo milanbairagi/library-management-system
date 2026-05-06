@@ -22,29 +22,29 @@
           <form method="POST">
             {% csrf_token %}
             <div class="form-floating mb-3">
-              <input type="text" id="name" name="name" class="form-control" required />
+              <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required />
               <label for="name">Name:</label>
             </div>
 
             <div class="form-floating mb-3">
-              <input type="email" id="email" name="email" class="form-control" required />
+              <input type="email" id="email" name="email" class="form-control" placeholder="name@example.com" required />
               <label for="email">Email:</label>
             </div>
 
             {% if user_type == 'Member' %}
             <div class="form-floating mb-3">
-              <input type="tel" id="phone" name="phone" class="form-control" required />
+              <input type="tel" id="phone" name="phone" class="form-control" placeholder="9XXXXXXXXX" required />
               <label for="phone">Phone:</label>
             </div>
             {% endif %}
 
             <div class="form-floating mb-3">
-              <input type="password" id="password" name="password" class="form-control" required />
+              <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required />
               <label for="password">Password:</label>
             </div>
 
             <div class="form-floating mb-3">
-              <input type="password" id="password2" name="password2" class="form-control" required />
+              <input type="password" id="password2" name="password2" class="form-control" placeholder="Confirm your password" required />
               <label for="password2">Confirm Password:</label>
             </div>
 
