@@ -14,18 +14,18 @@ Book Item - Library Management System
   {% endif %}
 
   {% if book %}
-    <h1>Book</h1>
-    <p><strong>ISBN:</strong> {{ book.isbn }}</p>
-    <p><strong>Title:</strong> {{ book.title }}</p>
-    <p><strong>Author:</strong> {{ book.author }}</p>
-    <p><strong>Publisher:</strong> {{ book.publisher }}</p>
-  <p><strong>Subject:</strong> {{ book.subject }}</p>
-  <br /><br />
+    <h1 class="mb-4">{{ book.title }}</h1>
+    <p class="lh-1"><strong>ISBN:</strong> {{ book.isbn }}</p>
+    <p class="lh-1"><strong>Title:</strong> {{ book.title }}</p>
+    <p class="lh-1"><strong>Author:</strong> {{ book.author }}</p>
+    <p class="lh-1"><strong>Publisher:</strong> {{ book.publisher }}</p>
+    <p class="lh-1"><strong>Subject:</strong> {{ book.subject }}</p>
+    <br /><br />
   {% endif %}
 
   {% if book_items %}
   <h2>Available Copies</h2>
-  <table class="table table-bordered">
+  <table class="table table-striped">
     <tr>
       <th>Barcode</th>
       <th>Status</th>
