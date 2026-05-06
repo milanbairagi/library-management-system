@@ -5,6 +5,9 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, render
 
 from .models import Member
+from books.models import Book
+from members.models import Member
+from loans.models import Loan, Reservation, ReservationStatus
 
 
 def login_for_role(request):
@@ -53,7 +56,16 @@ def librarian_register(request):
 @login_required
 def dashboard(request):
     if request.user.is_staff:
-        return render(request, "members/librarian_dashboard.html")
+        total_books = Book.objects.count()
+        total_members = Member.objects.filter(is_staff=False).count()
+        total_active_loans = Loan.objects.filter(return_date=None).count()
+        total_pending_reservations = Reservation.objects.filter(status=ReservationStatus.WAITING).count()
+        return render(request, "members/librarian_dashboard.html", {
+            "total_books": total_books,
+            "total_members": total_members,
+            "total_active_loans": total_active_loans,
+            "total_pending_reservations": total_pending_reservations
+        })
     return render(request, "members/member_dashboard.html", {"member": request.user})
 
 
