@@ -40,16 +40,23 @@ class Member(User):
         return self.name
 
     def borrow_book(self, book):
+        """Deprecated: Use LoanService.issue_book() instead."""
         self.borrowed_books.add(book)
 
     def return_book(self, book):
+        """Deprecated: Use LoanService.return_book() instead."""
         self.borrowed_books.remove(book)
 
     def reserve_book(self, book):
-        from loans.models import Reservation
-
-        reservation = Reservation.objects.create(book=book, member=self)
-        return reservation
+        """
+        Reserve a book for this member.
+        
+        Delegates to LoanService.reserve_book() for the actual workflow.
+        """
+        from loans.services import LoanService
+        
+        result = LoanService.reserve_book(self, book)
+        return result['reservation'] if result['success'] else None
 
 
 class Librarian(Member):
@@ -70,6 +77,12 @@ class Librarian(Member):
         book.delete()
 
     def issue_book(self, book: BookItem, member: Member):
-        if book.check_availability():
-            book.mark_issued(due_date=None)  # TODO: Set due date
-            member.borrow_book(book)
+        """
+        Issue a book to a member.
+        
+        Delegates to LoanService.issue_book() for the actual workflow.
+        """
+        from loans.services import LoanService
+        
+        result = LoanService.issue_book(member, book)
+        return result['loan'] if result['success'] else None
