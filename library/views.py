@@ -3,9 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from books.models import Book, BookItem, BookStatus
 from members.models import Member
-from loans.models import Reservation, Loan
-from django.utils import timezone
-from core.constants import LOAN_PERIOD_DAYS, MAX_LOANS_PER_MEMBER
+from loans.services import LoanService
 
 
 def index(request):
@@ -82,56 +80,34 @@ def issue_book(request):
 
         try:
             book = Book.objects.get(id=book_id)
-            book_item = BookItem.objects.filter(book=book, status=BookStatus.AVAILABLE).first()
             member = Member.objects.get(id=member_id)
+            book_item = BookItem.objects.filter(book=book, status=BookStatus.AVAILABLE).first()
         except (Book.DoesNotExist, Member.DoesNotExist):
             return render(request, "library/issue_book.html", {"error": "Invalid book or member ID."})
-        
-        # Check if the book item is available for issuing
-        if not book_item or not book_item.check_availability():
-            # Create a reservation for the member if the book is not available
-            Reservation.objects.create(book=book, member=member)
-            return render(request, "library/issue_book.html", {"error": "Book is not available for issuing. A reservation has been created for the member."})
 
-        # Check if the member has any pending fines
-        pending_fines = sum(loan.get_pending_fine() for loan in member.loans.all())
-        if pending_fines > 0:
-            return render(request, "library/issue_book.html", {"error": f"Member has pending fines of ${pending_fines:.2f}. Please resolve fines before issuing new books."})
+        # Use the service layer to issue the book
+        result = LoanService.issue_book(member, book_item)
 
-        # Check if the member has reached the maximum number of active loans
-        active_loans_count = member.loans.filter(return_date__isnull=True).count()
-        if active_loans_count >= MAX_LOANS_PER_MEMBER:
-            return render(request, "library/issue_book.html", {"error": f"Member has reached the maximum number of active loans ({MAX_LOANS_PER_MEMBER}). Cannot issue more books until some are returned."})
-
-        # Create a new loan for the book and member
-        loan = Loan.objects.create(
-            member=member,
-            book_item=book_item,
-            issue_date=timezone.now().date(),
-            due_date=timezone.now().date() + timezone.timedelta(days=LOAN_PERIOD_DAYS)
-        )
-
-        # Mark the book as issued
-        book_item.mark_issued(due_date=loan.due_date)
-
-        # Check if the member has any reservations for this book and mark them as fulfilled
-        reservations = Reservation.objects.filter(book=book, member=member)
-        for reservation in reservations:
-            reservation.fulfill()
-
-        return render(request, "library/issue_book.html",
+        if result['success']:
+            return render(request, "library/issue_book.html",
                         {
-                          "message": "Book issued successfully.",
-                          "members": members,
+                            "message": result['message'],
+                            "members": members,
                             "books": books
-                       })
-    
-
-    return render(request, "library/issue_book.html", 
+                        })
+        else:
+            return render(request, "library/issue_book.html",
                         {
-                          "members": members,
+                            "error": result['message'],
+                            "members": members,
                             "books": books
-                       })
+                        })
+
+    return render(request, "library/issue_book.html",
+                        {
+                            "members": members,
+                            "books": books
+                        })
 
 
 @login_required
@@ -152,35 +128,22 @@ def return_book(request):
                 "error": "Invalid book item or member ID."
             })
 
-        # Check if the book item is currently issued to the member
-        if book_item.status != BookStatus.ISSUED:
-            return render(request, "library/return_book.html", {
-                "error": "This book item is not currently issued."
-            })
+        # Use the service layer to return the book
+        result = LoanService.return_book(book_item, member)
 
-        # Mark the book as returned
-        book_item.mark_returned()
-
-        # Find the corresponding loan and mark it as returned and calculate any fines
-        loan = Loan.objects.filter(book_item=book_item, member=member, return_date__isnull=True).first()
-        fine = None
-        if loan:
-            loan.return_date = timezone.now().date()
-            loan.save()
-            fine = loan.calculate_and_create_fine()
+        if result['success']:
+            if result['fine'] and not result['fine'].fully_paid:
+                return render(request, "library/return_book.html", {
+                    "message": result['message'],
+                    "fine": result['fine']
+                })
+            else:
+                return render(request, "library/return_book.html", {
+                    "message": result['message']
+                })
         else:
             return render(request, "library/return_book.html", {
-                "error": "The member did not borrow this book."
+                "error": result['message']
             })
-
-        if fine and not fine.fully_paid:
-            return render(request, "library/return_book.html", {
-                "message": f"Book returned successfully. A fine of ${fine.amount:.2f} has been incurred for late return.",
-                "fine": fine
-                })
-
-        return render(request, "library/return_book.html", {
-            "message": "Book returned successfully. No fines incurred."
-        })
 
     return render(request, "library/return_book.html")
