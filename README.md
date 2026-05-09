@@ -106,7 +106,6 @@ library-management-system/
 │   └── partials/           # Reusable template components (navbar, etc.)
 │
 ├── manage.py               # Django management script
-├── main.py                 # Alternative entry point
 ├── db.sqlite3              # SQLite database (development)
 ├── pyproject.toml          # Project dependencies and metadata
 └── README.md               # This file
