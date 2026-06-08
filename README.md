@@ -65,7 +65,7 @@ A Django-based library management system for tracking book inventory, managing m
 
 ```
 library-management-system/
-├── core/                    # Django project settings and configuration
+├── core/                   # Django project settings and configuration
 │   ├── settings.py         # Main Django settings
 │   ├── urls.py             # Root URL routing
 │   ├── wsgi.py             # WSGI configuration
