@@ -51,12 +51,17 @@ A Django-based library management system for tracking book inventory, managing m
    uv run python manage.py createsuperuser
    ```
 
-5. **Start the development server:**
+5. **Seed initial data (optional):**
+   ```bash
+   uv run python manage.py seed_books
+   ```
+
+6. **Start the development server:**
    ```bash
    uv run python manage.py runserver
    ```
 
-6. **Access the application:**
+7. **Access the application:**
    - Main application: http://localhost:8000/
    - Django admin panel: http://localhost:8000/admin/
    - Login with your superuser credentials
